@@ -32,13 +32,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func loginButtonPressed() {
-        if userNameTF.text != "Philip", passwordTF.text != "12345" {
+        if userNameTF.text != username, passwordTF.text != password {
             remindAlert(title: "Wrong", message: "Wrong Username or Password. Please input correct data!")
         }
     }
     
     @IBAction func forgotUsernameButtonPressed() {
-        remindAlert(title: "Forgot Username?", message: "You Username is User")
+        remindAlert(title: "Forgot User Name?", message: "You Username is User")
     }
     
     @IBAction func forgotPasswordButtonPressed() {
@@ -46,9 +46,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
-        guard let _ = segue.source as? WelcomeViewController else {return}
-        userNameTF.text = ""
-        passwordTF.text = ""
+        userNameTF.text = nil
+        passwordTF.text = nil
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -79,7 +78,6 @@ extension LoginViewController {
         )
         
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.userNameTF.text = ""
             self.passwordTF.text = ""
         }
         alert.addAction(okAction)
