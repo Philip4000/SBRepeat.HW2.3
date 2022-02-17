@@ -12,8 +12,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var userNameTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
     
-    private let username = "Philip"
-    private let password = "12345"
+    private let user = User.getUser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +26,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeVC = segue.destination as? WelcomeViewController else {return}
-        welcomeVC.userName = username
+        guard let tabBarController = segue.destination as? UITabBarController else {return}
+        guard let viewControllers = tabBarController.viewControllers else {return}
+        for viewContorller in viewControllers {
+            if let welcomeVC = viewContorller as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let navigationVC = viewContorller as? UINavigationController {
+                guard let profileVC = navigationVC.topViewController as? ProfileViewController else {return}
+                profileVC.user = user
+            } else {
+                return
+            }
+        }
     }
     
     @IBAction func loginButtonPressed() {
-        if userNameTF.text != username, passwordTF.text != password {
-            remindAlert(title: "Wrong", message: "Wrong Username or Password. Please input correct data!")
+        if userNameTF.text != user.username || passwordTF.text != user.password {
+            remindAlert(title: "Ooops!", message: "Wrong Username or Password. Please input correct data!")
         }
     }
     
@@ -42,7 +51,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func forgotPasswordButtonPressed() {
-        remindAlert(title: "Forgot Password?", message: "You password is Password")
+        remindAlert(title: "Forgot Password?", message: "You password is 12345")
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
