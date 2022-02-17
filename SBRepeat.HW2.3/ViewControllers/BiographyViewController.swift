@@ -9,7 +9,11 @@ import UIKit
 
 class BiographyViewController: UIViewController {
     
-    @IBOutlet var image: UIImageView!
+    @IBOutlet var image: UIImageView! {
+        didSet {
+            image.layer.cornerRadius = image.frame.height / 2
+        }
+    }
     @IBOutlet var biographyLabel: UILabel!
     
     
@@ -18,10 +22,9 @@ class BiographyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = user.person.name + " " + user.person.surname
+        title = user.person.fullName
         
-        image.layer.cornerRadius = image.frame.height / 2
-        image.image = user.person.image
+        image.image = UIImage(named: user.person.image)
 
         biographyLabel.text = user.person.biography
         

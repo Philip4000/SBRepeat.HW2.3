@@ -10,7 +10,11 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     
-    @IBOutlet var image: UIImageView!
+    @IBOutlet var image: UIImageView! {
+        didSet {
+            image.layer.cornerRadius = image.frame.height / 2
+        }
+    }
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var surnameLabel: UILabel!
     @IBOutlet var ageLabel: UILabel!
@@ -20,9 +24,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        image.layer.cornerRadius = image.frame.height / 2
-        
-        image.image = user.person.image
+        image.image = UIImage(named: user.person.image)
         nameLabel.text = user.person.name
         surnameLabel.text = user.person.surname
         ageLabel.text = String(user.person.age)
